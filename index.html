@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>緊縮と利上げだけで、円安は終わるのか？ — 議論用ドラフト</title>
+<style>
+:root{
+  --bg:#f7f7f4;          /* 淡グレー背景 */
+  --surface:#fdfdfc;     /* カード面 */
+  --ink:#141414;         /* 本文 */
+  --ink2:#4e4d4a;        /* 副文 */
+  --muted:#87857f;       /* 軸・注記 */
+  --grid:#e3e2dc;
+  --baseline:#c4c3bc;
+  --navy:#17304f;        /* 基本色: 濃紺 */
+  --navy-chart:#20568f;  /* 系列1（CVD検証済み） */
+  --accent:#c0392b;      /* 強調色: 一色のみ */
+  --hairline:rgba(20,20,20,.10);
+  --sans:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic Medium","Yu Gothic",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.85;font-size:16px;-webkit-font-smoothing:antialiased}
+main{max-width:860px;margin:0 auto;padding:0 20px}
+
+/* ===== 固定ナビ ===== */
+nav#gnav{position:sticky;top:0;z-index:100;background:rgba(247,247,244,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--hairline)}
+nav#gnav .in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:8px;padding:8px 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+nav#gnav .in::-webkit-scrollbar{display:none}
+nav#gnav .brand{font-weight:700;font-size:12px;color:var(--navy);white-space:nowrap;margin-right:6px}
+nav#gnav a{font-size:12px;color:var(--ink2);text-decoration:none;white-space:nowrap;padding:4px 8px;border-radius:6px}
+nav#gnav a:hover{background:rgba(23,48,79,.08);color:var(--navy)}
+
+/* ===== ラベルチップ ===== */
+.chip{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;padding:1px 9px;border-radius:3px;vertical-align:middle;line-height:1.9}
+.chip.fact{background:var(--navy);color:#fff}
+.chip.est{background:transparent;color:var(--navy);border:1px dashed var(--navy)}
+.chip.hyp{background:var(--accent);color:#fff}
+.chip.interp{background:#6b6a66;color:#fff}
+.chip.anec{background:transparent;color:var(--ink2);border:1px solid var(--baseline)}
+.chip.todo{background:transparent;color:var(--muted);border:1px dashed var(--muted)}
+
+/* ===== ヒーロー ===== */
+header.hero{padding:88px 20px 56px;text-align:left;max-width:860px;margin:0 auto}
+.hero .status{font-size:12px;color:var(--muted);letter-spacing:.05em;margin-bottom:22px}
+.hero .status b{color:var(--accent)}
+.hero h1{font-size:clamp(26px,5.2vw,44px);line-height:1.45;color:var(--navy);font-weight:800;letter-spacing:.01em}
+.hero .sub{font-size:clamp(15px,2.6vw,20px);color:var(--ink2);font-weight:600;margin-top:14px}
+.hero .lead{margin-top:30px;font-size:15.5px;color:var(--ink);max-width:600px;border-left:3px solid var(--navy);padding-left:18px}
+.hero .lead em{font-style:normal;font-weight:700;color:var(--navy)}
+.legend-box{margin-top:34px;font-size:12px;color:var(--ink2);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* ===== セクション共通 ===== */
+section{padding:56px 0 30px;border-top:1px solid var(--hairline)}
+.sec-no{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.18em}
+section h2{font-size:clamp(20px,3.6vw,28px);color:var(--navy);line-height:1.5;margin:6px 0 4px;font-weight:800}
+.keyline{margin:18px 0 26px;padding:14px 18px;background:var(--surface);border:1px solid var(--hairline);border-left:4px solid var(--navy);border-radius:6px;font-weight:700;font-size:15.5px;color:var(--ink)}
+.keyline .kicker{display:block;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.12em;margin-bottom:2px}
+p.body{margin:0 0 16px;max-width:720px}
+p.body,li{font-size:15px;color:var(--ink)}
+.note{font-size:12.5px;color:var(--ink2)}
+.qbox{margin:22px 0;padding:16px 18px;border:1px dashed var(--accent);border-radius:8px;background:rgba(192,57,43,.035);font-size:14.5px}
+.qbox b{color:var(--accent)}
+
+/* ===== 図表 ===== */
+figure{margin:26px 0;background:var(--surface);border:1px solid var(--hairline);border-radius:10px;padding:18px 18px 12px;break-inside:avoid}
+figure .ftitle{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px}
+figure .fsub{font-size:12px;color:var(--ink2);margin-bottom:10px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.7;border-top:1px solid var(--grid);padding-top:8px}
+.todo-box{margin:26px 0;padding:22px;border:1.5px dashed var(--baseline);border-radius:10px;color:var(--muted);font-size:13.5px;text-align:center;background:transparent}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+
+/* stat tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:22px 0}
+.tile{background:var(--surface);border:1px solid var(--hairline);border-radius:10px;padding:14px 16px}
+.tile .t-label{font-size:12px;color:var(--ink2);font-weight:600;min-height:2.6em}
+.tile .t-value{font-size:26px;font-weight:800;color:var(--navy);line-height:1.3;margin:2px 0}
+.tile .t-value small{font-size:14px;font-weight:700}
+.tile .t-note{font-size:11px;color:var(--muted);line-height:1.6}
+.tile.warn .t-value{color:var(--accent)}
+.tile.todo-tile{border-style:dashed;background:transparent}
+.tile.todo-tile .t-value{color:var(--muted);font-size:15px;padding:8px 0}
+
+/* 比較カード（§2） */
+.vscards{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:stretch;margin:22px 0}
+.vscard{background:var(--surface);border:1px solid var(--hairline);border-radius:10px;padding:18px;text-align:center}
+.vscard .year{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.1em}
+.vscard .rate{font-size:32px;font-weight:800;color:var(--navy);margin:6px 0 2px}
+.vscard .conv{font-size:14px;color:var(--ink2)}
+.vsarrow{display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--accent);font-weight:800}
+@media(max-width:560px){.vscards{grid-template-columns:1fr}.vsarrow{transform:rotate(90deg)}}
+
+/* テーブル */
+.tblwrap{overflow-x:auto;margin:22px 0;background:var(--surface);border:1px solid var(--hairline);border-radius:10px}
+table.dt{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}
+table.dt th{background:var(--navy);color:#fff;font-weight:700;text-align:left;padding:9px 12px;font-size:12.5px;line-height:1.5}
+table.dt td{padding:9px 12px;border-bottom:1px solid var(--grid);vertical-align:top;line-height:1.7}
+table.dt tr:last-child td{border-bottom:none}
+table.dt td:first-child{font-weight:700;color:var(--navy);white-space:nowrap}
+table.dt .good{color:var(--navy);font-weight:700}
+table.dt .weak{color:var(--accent);font-weight:700}
+
+/* 仮説カード（§5） */
+.hcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:24px 0}
+.hcard{background:var(--surface);border:1px solid var(--hairline);border-top:4px solid var(--accent);border-radius:10px;padding:18px}
+.hcard .hno{font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.14em}
+.hcard h3{font-size:15.5px;color:var(--ink);margin:6px 0 8px;line-height:1.6}
+.hcard p{font-size:13px;color:var(--ink2)}
+
+/* 5本柱（§13） */
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;margin:24px 0}
+.pillar{background:var(--surface);border:1px solid var(--hairline);border-radius:10px;padding:18px}
+.pillar .pno{font-size:24px;font-weight:800;color:var(--navy);opacity:.25}
+.pillar h3{font-size:15.5px;color:var(--navy);margin:2px 0 8px}
+.pillar p{font-size:13px;color:var(--ink2)}
+
+/* 後半パート（§11-14）のトーン */
+.part-divider{margin:70px 0 0;padding:26px 22px;background:var(--navy);border-radius:12px;color:#fff}
+.part-divider .pd-kicker{font-size:11px;letter-spacing:.16em;font-weight:700;opacity:.7}
+.part-divider h2{color:#fff;font-size:20px;margin-top:4px}
+.part-divider p{font-size:13px;opacity:.85;margin-top:8px;line-height:1.8}
+.partB section{background:transparent}
+
+/* 結論（§14） */
+.finale{margin:34px 0;padding:34px 28px;background:var(--navy);color:#fff;border-radius:12px;text-align:center}
+.finale p{font-size:clamp(17px,3vw,22px);font-weight:800;line-height:2.1}
+.caveats{margin:22px 0;padding:18px;background:var(--surface);border:1px solid var(--hairline);border-radius:10px}
+.caveats h3{font-size:13.5px;color:var(--ink);margin-bottom:8px}
+.caveats li{font-size:13px;color:var(--ink2);margin-left:20px;margin-bottom:4px}
+
+footer{padding:44px 20px 70px;text-align:center;font-size:12px;color:var(--muted);border-top:1px solid var(--hairline);margin-top:60px}
+
+/* ツールチップ */
+#tip{position:fixed;z-index:200;pointer-events:none;background:var(--navy);color:#fff;font-size:12px;padding:5px 10px;border-radius:6px;opacity:0;transition:opacity .12s;white-space:nowrap;line-height:1.6}
+
+/* ===== 印刷 ===== */
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  nav#gnav,#tip{display:none}
+  body{background:#fff;font-size:12px}
+  header.hero{padding:30px 0 20px}
+  section{padding:26px 0 12px;page-break-inside:auto}
+  figure,.tile,.hcard,.pillar,.keyline,.tblwrap{break-inside:avoid}
+  a{color:inherit;text-decoration:none}
+  @page{margin:16mm}
+}
+</style>
+</head>
+<body>
+
+<nav id="gnav"><div class="in">
+  <span class="brand">円安と供給力｜議論用</span>
+  <a href="#s01">01 問い</a><a href="#s02">02 寿司</a><a href="#s03">03 通説</a><a href="#s04">04 疑問</a><a href="#s05">05 仮説</a><a href="#s06">06 黒字の中身</a><a href="#s07">07 輸出</a><a href="#s08">08 海外移転</a><a href="#s09">09 流出</a><a href="#s10">10 バケツ</a><a href="#s11">11 制度</a><a href="#s12">12 AI</a><a href="#s13">13 補修</a><a href="#s14">14 結論</a>
+</div></nav>
+
+<!-- ============ 1. ファーストビュー ============ -->
+<header class="hero" id="s01">
+  <div class="status"><b>議論用ドラフト</b>（完成版の提言資料ではない）｜ 計数固定日: 2026年8月6日 ｜ 出典は各図表直下と巻末に明記</div>
+  <h1>緊縮と利上げだけで、<br>円安は終わるのか？</h1>
+  <div class="sub">日本の供給力を失わせた30年とAI時代の国家戦略</div>
+  <div class="lead">
+    短期の円安は金利差で説明できる。<br>
+    しかし、金利差が縮まれば円は本当に元の水準へ戻るのか。<br>
+    このページでは、<em>国内供給力・所得構造・制度の老化</em>という別の仮説を検証する。
+  </div>
+  <div class="legend-box">
+    <span>本文中のラベル:</span>
+    <span class="chip fact">事実</span><span>公式統計で検証済み</span>
+    <span class="chip est">試算</span><span>推計・組替値</span>
+    <span class="chip hyp">仮説</span><span>本資料で検証したい命題</span>
+    <span class="chip interp">解釈</span><span>筆者・実務者の見方</span>
+    <span class="chip anec">逸話</span><span>個別のエピソード</span>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ 2. LAの寿司 ============ -->
+<section id="s02">
+  <div class="sec-no">SECTION 02</div>
+  <h2>LAの寿司は、なぜ円で見ると倍になったのか</h2>
+  <div class="keyline"><span class="kicker">この章の結論</span>ドルの値札はほとんど変わっていないのに、円換算の支払いは為替だけで約1.5倍になった。</div>
+
+  <p class="body"><span class="chip anec">逸話</span> 8年前に訪れたロサンゼルスの寿司店。ドル建ての価格は「インフレの中では良心的」と言える程度の上昇にとどまっていた。しかし円に換算すると、予算はほぼ倍になっていた——これが本資料の出発点にあるエピソードである。</p>
+
+  <div class="vscards">
+    <div class="vscard">
+      <div class="year">2018年（8年前）</div>
+      <div class="rate">1ドル ≈ 110円</div>
+      <div class="conv">$100の食事 ≈ <b>11,043円</b></div>
+    </div>
+    <div class="vsarrow">→</div>
+    <div class="vscard">
+      <div class="year">2026年7月</div>
+      <div class="rate">1ドル = 163円台</div>
+      <div class="conv">$100の食事 ≈ <b>16,300円超</b></div>
+    </div>
+  </div>
+  <p class="body"><span class="chip fact">事実</span> 2018年の年間平均レートは1ドル≈110.43円（TTM）。2026年7月21日には一時163円台をつけ、<b>1986年12月以来、39年7カ月ぶり（約40年ぶり）の円安水準</b>となった。ドル価格が一定でも、為替だけで円建て負担は約1.48倍。ドル建て価格自体の上昇が加われば、体感は「ほぼ倍」になる。</p>
+  <p class="note">出典: 三菱UFJリサーチ&コンサルティング 外国為替相場一覧（2018年年間平均TTS/TTBよりTTM算出）／日本経済新聞（2026年7月、東京・NY市場）。レートは日々変動するため、本資料の計数は2026年8月6日時点で固定。</p>
+</section>
+
+<!-- ============ 3. 一般的な説明 ============ -->
+<section id="s03">
+  <div class="sec-no">SECTION 03</div>
+  <h2>円安の一般的な説明——どこまで説明でき、どこから弱いのか</h2>
+  <div class="keyline"><span class="kicker">この章の結論</span>金利差は短期の変動を最もよく説明する。だが「なぜ振れ幅の中心（床）が下がり続けるのか」には別の説明が要る。</div>
+
+  <p class="body">本資料は「金利差や財政は関係ない」とは<b>主張しない</b>。それぞれの説明が「どこまで効くか」を先に公平に確認する。</p>
+
+  <div class="tblwrap"><table class="dt">
+    <thead><tr><th style="width:9em">要因</th><th>どこまで説明できるか</th><th>どこから説明力が弱くなるか</th></tr></thead>
+    <tbody>
+      <tr><td>日米金利差</td><td class="good">日々〜数年の変動の主要因。キャリー取引・資本フローを直接動かす</td><td>金利差が縮小した局面でも円の実質価値の趨勢的低下（§4）が反転しない場合、水準の説明としては不足</td></tr>
+      <tr><td>日銀の金融緩和</td><td class="good">名目円安・実質金利低下の経路は明確。政策転換期の変動も説明</td><td>緩和以前から実質実効レートの低下は進行しており、趨勢全体の説明にはならない</td></tr>
+      <tr><td>財政赤字・政府債務</td><td class="good">財政信認の変化は通貨リスクプレミアムを通じ為替に影響し得る</td><td>債務残高の水準と為替水準の関係は国際比較で一意でない。「赤字だから円安」の単純な対応は観察されない</td></tr>
+      <tr><td>投機・ポジション</td><td class="good">短期のオーバーシュートを増幅する</td><td>投機は持続的な一方向の水準を独力では作れない。市場が織り込むのは「実力」の評価</td></tr>
+      <tr><td>人口減少</td><td class="good">長期の成長期待・投資収益率の低下を通じて通貨需要に効き得る</td><td>効くとしても経路は間接的で、単独では時期・速度を説明できない</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">この表は各要因の一般的な説明力の整理であり、定量的な寄与度分解ではない（<span class="chip interp">解釈</span>）。日米金利差とドル円の時系列比較チャートは<b>データ取得予定</b>（日銀・FRB政策金利、2年債利回り差）。</p>
+
+  <div class="qbox"><b>ここで残る問い:</b> 短期の変動は金利差で説明できるとして——<b>変動の「床」がじりじり下がり続けている</b>ように見えるのはなぜか。次章でデータを見る。</div>
+</section>
+
+<!-- ============ 4. 残る疑問 ============ -->
+<section id="s04">
+  <div class="sec-no">SECTION 04</div>
+  <h2>過去最高の経常黒字なのに、なぜ円は弱いのか</h2>
+  <div class="keyline"><span class="kicker">この章の結論</span>経常黒字は2年連続で過去最高。同時に、円の実質実効レートは統計開始以来の最低圏にある。教科書的な対応が崩れている。</div>
+
+  <p class="body"><span class="chip fact">事実</span> 教科書的には、経常黒字国の通貨には買い需要が生まれる。日本の2025年（暦年）の経常収支は<b>32兆2,350億円の黒字</b>（2026年4月改訂後。速報時点では31兆8,799億円）で、2024年に続き<b>2年連続の過去最高</b>。一方、円の実質実効為替レート（REER）は2026年6月に<b>統計開始（1994年）以来の最低値</b>を更新した。</p>
+
+  <figure>
+    <div class="ftitle">経常収支は過去最高、円の実質実効レートは過去最低圏 <span class="chip fact">事実</span></div>
+    <div class="fsub">上: 経常収支（暦年、兆円） 下: 円の実質実効為替レート（2020年=100、年平均。値が低いほど円の実質的な購買力が低い）</div>
+    <div id="ch-ca"></div>
+    <div id="ch-reer" style="margin-top:6px"></div>
+    <figcaption>出典: 財務省「国際収支状況」時系列データ（2026年4月8日改訂反映、2013年以前はBPM5からの組替値）／BIS Effective exchange rate statistics（Broad・Real、2020=100、2026年6月分まで。2026年の値は1〜6月平均66.3、6月単月65.3）。経常収支は5年刻み＋2022年以降の年次値。</figcaption>
+  </figure>
+
+  <div class="qbox"><b>問い:</b> 「過去最高に稼いでいる国」の通貨が、なぜ「約40年ぶりの安値」で取引されるのか。金利差だけでこの水準の持続を説明しきれるか。</div>
+</section>
+
+<!-- ============ 5. 仮説の提示 ============ -->
+<section id="s05">
+  <div class="sec-no">SECTION 05</div>
+  <h2>仮説——円安の背景に、供給能力の低下があるのではないか</h2>
+  <div class="keyline"><span class="kicker">この章の結論</span>以下の3つは検証対象の<b>仮説</b>であり、確立した事実ではない。以降の章で、支持データと反証データの両方を示す。</div>
+
+  <div class="hcards">
+    <div class="hcard"><div class="hno">仮説 1 <span class="chip hyp">仮説</span></div>
+      <h3>国内供給能力の相対的低下</h3>
+      <p>円安でも輸出数量が増えない。円で買える財・サービスの供給に制約があり、「円で買いたいもの」が相対的に不足しているのではないか。→ §7・§8で検証</p></div>
+    <div class="hcard"><div class="hno">仮説 2 <span class="chip hyp">仮説</span></div>
+      <h3>海外資産所得への依存</h3>
+      <p>経常黒字の中身が貿易から海外資産所得へ移り、黒字が円買いに直結しない構造になったのではないか。→ §6で検証</p></div>
+    <div class="hcard"><div class="hno">仮説 3 <span class="chip hyp">仮説</span></div>
+      <h3>制度の老化</h3>
+      <p>古い制度を廃止せず新しい規制を積み重ねる「制度の老化」が、再投資・新規参入・AI実装を妨げているのではないか。→ §11・§12で検証（確度は仮説1・2より一段低い）</p></div>
+  </div>
+  <p class="note">重要な立場: 金利差は短期変動の主要因であり、財政信認も為替に影響し得る。上の3仮説は金利差説の<b>代替ではなく補完</b>であり、「供給能力低下が円安の唯一の原因」という主張はしない。</p>
+</section>
+
+<!-- ============ 6. 経常黒字の中身 ============ -->
+<section id="s06">
+  <div class="sec-no">SECTION 06</div>
+  <h2>経常黒字の中身——売って稼ぐ国から、資産で稼ぐ国へ</h2>
+  <div class="keyline"><span class="kicker">この章の結論</span>黒字の主役は貿易ではなく海外資産からの所得。しかもその一部（再投資収益11.2兆円）は、統計上は黒字でも円買いを伴わない。</div>
+
+  <figure>
+    <div class="ftitle">貿易収支と第一次所得収支の逆転 <span class="chip fact">事実</span></div>
+    <div class="fsub">暦年・兆円。2005年に第一次所得収支（海外資産からの利子・配当）が貿易収支を上回り、以降差は拡大の一途。</div>
+    <div id="ch-income"></div>
+    <figcaption>出典: 財務省「国際収支状況」時系列データ（6s-1-1、2026年4月8日改訂反映）。5年刻み＋2022年以降の年次値。2013年以前はBPM5からの組替値。</figcaption>
+  </figure>
+
+  <figure>
+    <div class="ftitle">2025年 経常収支 32.2兆円の内訳（ウォーターフォール） <span class="chip fact">事実</span></div>
+    <div class="fsub">暦年・兆円・2026年4月改訂後。黒字のほぼすべてが第一次所得収支。</div>
+    <div id="ch-wf"></div>
+    <figcaption>出典: 財務省「国際収支状況」（2026年4月8日改訂後）。第一次所得収支+41.8兆／貿易収支▲0.6兆／サービス収支▲3.4兆／第二次所得収支▲5.6兆。</figcaption>
+  </figure>
+
+  <p class="body"><span class="chip est">試算</span> 第一次所得収支のうち<b>再投資収益</b>（海外子会社が現地に留保した利益。2025年: <b>11兆2,150億円、第一次所得収支の26.8%</b>）は、統計上は日本の黒字に計上されるが、<b>外貨のまま現地で再投資され、円買いを伴わない</b>と指摘されている（日本総研、2024年4月）。「経常黒字＝円買い圧力」という前提は、この分だけ割り引く必要がある。</p>
+  <p class="body"><span class="chip interp">解釈</span> ただし、再投資収益を除いても20兆円規模の黒字は残る。「黒字は数字だけ」とは言えない。正確には「黒字と円買いの連動が構造的に弱くなった」である。</p>
+  <p class="note">出典: 財務省・日本銀行「国際収支統計」／日本総合研究所「為替需給面の変化が円高進行を抑制」（2024年4月11日）。再投資収益の円転行動は直接観測できないため「試算」ラベル。</p>
+</section>
+
+<!-- ============ 7. 輸出額と輸出数量の乖離 ============ -->
+<section id="s07">
+  <div class="sec-no">SECTION 07</div>
+  <h2>輸出は「過去最高」——しかし数量は減っている</h2>
+  <div class="keyline"><span class="kicker">この章の結論</span>2024年度の輸出額108.9兆円（過去最高）の中身は、価格+8.5%・数量▲2.4%。売る量が増えたのではなく、値札が円建てで膨らんだ。</div>
+
+  <figure>
+    <div class="ftitle">輸出「金額」の増加は価格要因——数量はマイナス <span class="chip fact">事実</span></div>
+    <div class="fsub">2024年度・前年度比（%）。左: 輸出全体 右: 自動車</div>
+    <div class="grid2">
+      <div id="ch-exp1"></div>
+      <div id="ch-exp2"></div>
+    </div>
+    <figcaption>出典: 財務省貿易統計「令和6年度分（速報）の概要」貿易指数（2020年=100）・「令和6年度分（確々報）」主要商品別。輸出額108兆9,373億円（確々報）は4年連続増加・過去最高。自動車は金額18兆3,260億円（+2.5%）・数量583万台（▲4.0%）。通関ベース。</figcaption>
+  </figure>
+
+  <p class="body"><span class="chip fact">事実</span> 輸出数量指数は2024年度で3年連続、暦年では2025年まで<b>4年連続の減少</b>。この間、為替は2024年度平均152.60円/ドルと歴史的な円安だった。「円安になれば数量が伸びる」という教科書的なJカーブ効果が、少なくとも量的にはほとんど観察されていない。</p>
+  <p class="body"><span class="chip hyp">仮説</span> なぜ売れないのか——「売るものがない」か「あっても作れる量に限りがある」か。海外への生産移転で国内から出す分がない可能性（§8）、円で買いたいと思わせる財・サービスの不足の可能性（仮説1）。<b>この原因分解はまだ検証できていない</b>。数量停滞は事実だが、その解釈には現地生産化という企業の合理的戦略も含まれ、「供給能力の低下」と同義ではない。</p>
+  <div class="todo-box">📊 データ取得予定: 輸出数量指数の長期系列（2010年以前）。現行指数（2020年=100）は2010年まで遡及されておらず、旧基準（2015年=100）との接続計算では2024〜25年の数量は2015年比約▲6%、コロナ前2019年比約▲9%の水準（簡易連鎖換算の参考値・試算）。</div>
+</section>
+
+<!-- ============ 8. 生産設備と資産の海外移転 ============ -->
+<section id="s08">
+  <div class="sec-no">SECTION 08</div>
+  <h2>企業は強い。しかし生産装置の所在地が海外に移った</h2>
+  <div class="keyline"><span class="kicker">この章の結論</span>日本企業の利益・資産は過去最高。ただしその蓄積場所は海外・外貨建てに偏り、日本列島の供給能力とは別物になりつつある。</div>
+
+  <div class="tiles">
+    <div class="tile"><div class="t-label">製造業 海外生産比率（国内全法人ベース）</div><div class="t-value">27.2<small>%</small></div><div class="t-note">2023年度。海外進出企業ベースでは43.9%、輸送機械は48.9%（経産省 海外事業活動基本調査）<span class="chip fact">事実</span></div></div>
+    <div class="tile"><div class="t-label">海外現地法人の売上高</div><div class="t-value">374<small>兆円</small></div><div class="t-note">2023年度（+3.5%）。従業者532万人（同上）<span class="chip fact">事実</span></div></div>
+    <div class="tile"><div class="t-label">自動車: 海外生産 vs 国内生産</div><div class="t-value">1,648<small>万台</small> vs 824<small>万台</small></div><div class="t-note">2024年。海外生産は国内の約2倍（日本自動車工業会）<span class="chip fact">事実</span></div></div>
+    <div class="tile"><div class="t-label">製造業設備投資に占める海外比率</div><div class="t-value">22.8<small>%</small></div><div class="t-note">2023年度。海外4.9兆円（+12.1%）vs 国内16.5兆円（経産省調査内の対比）<span class="chip fact">事実</span></div></div>
+  </div>
+
+  <figure>
+    <div class="ftitle">企業の利益剰余金（いわゆる内部留保）は13年連続で過去最高 <span class="chip fact">事実</span></div>
+    <div class="fsub">年度末・兆円・金融保険業を除く全産業。※利益剰余金は会計上の蓄積残高であり、現預金（2024年度末301兆円）とは別物。</div>
+    <div id="ch-retained"></div>
+    <figcaption>出典: 財務省「年次別法人企業統計調査」各年度（令和6年度: 2025年9月1日公表）。標本調査のため年度間の断層に注意。</figcaption>
+  </figure>
+
+  <p class="body"><span class="chip fact">事実</span> 対外純資産は2025年末で<b>561.8兆円と過去最高</b>（8年連続増加）。ただし——エッセイ執筆時点の「33年連続世界最大」はすでに過去の事実で、<b>2024年末にドイツ、2025年末に中国に抜かれ、現在は世界3位</b>である（1位ドイツ675.5兆円、2位中国636.3兆円）。</p>
+  <p class="body"><span class="chip interp">解釈</span> 「日本に資産がない」のではない。資産は積み上がり続けている。問題は<b>資産＝生産装置の所在地が海外で、通貨が外貨</b>だということ。他方、反証も正直に見るべきで、国内設備投資も2024年度55.5兆円と2001年度以降の最高水準にある。「国内が空洞化した」ではなく「<b>増分が海外に向かい続けてきた</b>」が正確な描写になる。</p>
+  <p class="note">出典: 財務省「本邦対外資産負債残高」令和7年末（2026年5月26日公表、順位はIMF公表レート換算）／財務省「年次別法人企業統計調査（令和6年度）」。海外生産比率の1990年代〜2010年度の長期系列は<b>データ取得予定</b>（一次資料での裏取り未了）。</p>
+</section>
+
+<!-- ============ 9. デジタル・エネルギー等への流出 ============ -->
+<section id="s09">
+  <div class="sec-no">SECTION 09</div>
+  <h2>インバウンドとIPで稼いだ黒字を、デジタル支払いが飲み込む</h2>
+  <div class="keyline"><span class="kicker">この章の結論</span>デジタル関連の支払超過は年6.7兆円（試算）。旅行収支の黒字6.7兆円とほぼ同額が、サービス収支の中で相殺されている。</div>
+
+  <p class="body"><span class="chip est">試算</span> 「デジタル赤字」は<b>公式統計の単一項目ではない</b>。日銀レビュー（2023年8月）が示したサービス収支の組替——「通信・コンピュータ・情報サービス」＋「著作権等使用料」＋「専門・経営コンサルティングサービス（ネット広告等を含む）」の合計——に基づく試算値であり、定義の取り方で6.6〜6.9兆円の幅が出る。</p>
+
+  <figure>
+    <div class="ftitle">デジタル関連収支の推移——10年強で赤字は約3倍 <span class="chip est">試算</span></div>
+    <div class="fsub">暦年・兆円・ネット。日銀レビュー2023-J-9の組替方式による試算（2026年4月改訂後データで再集計）。</div>
+    <div id="ch-digital"></div>
+    <figcaption>出典: 日本銀行 時系列統計データ「国際収支」（2026年7月更新版）から3項目を組替集計。公表当時の報道ベースでは2023年▲5.5兆・2024年▲6.7兆。2025年は▲6.7兆円で確定し、<b>前年からわずかに縮小（拡大は一服）</b>。参考: 三菱総合研究所（2026年2月9日）。</figcaption>
+  </figure>
+
+  <figure>
+    <div class="ftitle">サービス収支（2025年）の内訳——黒字と赤字の綱引き <span class="chip fact">事実</span></div>
+    <div class="fsub">暦年・兆円・ネット・2026年4月改訂後。全体では▲3.4兆円。</div>
+    <div id="ch-services"></div>
+    <figcaption>出典: 日本銀行 時系列統計データ「国際収支」・財務省「国際収支状況」。「その他業務サービス」には専門・経営コンサルティング（▲2.5兆円、ネット広告を含む）、研究開発サービス等を含む。広告は独立項目ではない。「輸送・その他」は全体との差分から算出した残差。知的財産権等使用料の内訳は産業財産権+4.8兆／著作権等▲1.8兆（著作権の赤字はデジタル関連にも計上されるため二重に語らないこと）。</figcaption>
+  </figure>
+
+  <div class="tiles">
+    <div class="tile"><div class="t-label">鉱物性燃料（エネルギー）輸入</div><div class="t-value">22.1<small>兆円</small></div><div class="t-note">2025年・輸入総額の19.5%で最大品目。2010年代前半は3割超。エネルギー自給率16.4%（2024年度）<span class="chip fact">事実</span></div></div>
+    <div class="tile"><div class="t-label">投信経由の対外証券投資（家計の海外シフト）</div><div class="t-value">11.5<small>兆円 取得超</small></div><div class="t-note">2024年・2005年以降で最大、前年の約2.5倍（財務省統計・大和総研集計）。新NISA経由買付は12.6兆円（2025年・二次情報）。全額がNISA起因ではない点に注意<span class="chip fact">事実</span></div></div>
+    <div class="tile"><div class="t-label">訪日外国人・旅行消費</div><div class="t-value">4,268<small>万人</small> / 9.5<small>兆円</small></div><div class="t-note">2025年・ともに過去最高（JNTO/観光庁。消費額は調査に基づく推計）<span class="chip fact">事実</span></div></div>
+  </div>
+
+  <p class="body"><span class="chip interp">解釈</span> 海外クラウド・広告・AIの利用そのものは合理的な判断であり、批判の対象ではない。むしろ活用の遅れ（§12）のほうが深刻かもしれない。本質的な問いは支払額ではなく——<b>「払った分を超える国内付加価値を生み出せているか」</b>。生めていれば投資、生めていなければ流出である。ただし、この「回収率」を直接測る確立した方法はまだない。</p>
+</section>
+
+<!-- ============ 10. 穴の空いたバケツ ============ -->
+<section id="s10">
+  <div class="sec-no">SECTION 10</div>
+  <h2>穴の空いたバケツ——水量ではなく、流路と漏出を測る</h2>
+  <div class="keyline"><span class="kicker">この章の結論</span>問題は注ぐ水の量（支出総額）だけではない。注いだ水が国内の供給能力に転換されるか、それとも輸入と海外資産へ漏れるか——流路の設計が問われている。</div>
+
+  <figure>
+    <div class="ftitle">構造図: 需要刺激はどこへ流れるか <span class="chip interp">解釈</span>（数値ラベルは検証済みの実績値 <span class="chip fact">事実</span> / <span class="chip est">試算</span>）</div>
+    <div id="ch-bucket"></div>
+    <figcaption>金額はいずれも年間フローの実績値（デジタル関連収支は試算・2025年、鉱物性燃料輸入は2025年、投信経由対外証券投資は2024年、再投資収益は2025年）。矢印の太さは概念図であり金額に比例しない。</figcaption>
+  </figure>
+
+  <p class="body"><span class="chip hyp">仮説</span> 国内供給能力が弱い状態で需要だけを増やせば、追加需要のかなりの部分が輸入品・海外サービス・海外資産の購入へ「漏れる」。この漏出の存在自体は§9で確認したが、<b>財政支出の限界的な漏出率（追加1円がどれだけ海外へ向かうか）は定量化できていない</b>。</p>
+  <p class="body"><span class="chip interp">解釈</span> したがって「積極財政か緊縮か」という水量の議論だけでは足りない。<b>支出のトレーサビリティ</b>——どこへ流れ、何を生産できるようにしたか——を測る仕組みが、財政規模の議論と同じ重さで必要になる。</p>
+</section>
+
+<!-- ============ パート区切り ============ -->
+<div class="part-divider" id="partB">
+  <div class="pd-kicker">PART B — ここから先は確度が一段低い</div>
+  <h2>制度と AI——バケツの「補修」の議論へ</h2>
+  <p>§2〜10はエッセイの主張を公式統計で検証するパートだった。ここからは「ではどう補修するか」という政策仮説のパート。定性的な比較と将来の話が中心になるため、事実と仮説の区別をさらに厳密に保つ。</p>
+</div>
+
+<div class="partB">
+
+<!-- ============ 11. 制度の老化 ============ -->
+<section id="s11">
+  <div class="sec-no">SECTION 11</div>
+  <h2>制度の老化——誰も禁止しないが、誰も許可の責任を負わない</h2>
+  <div class="keyline"><span class="kicker">この章の結論</span>日本の問題は規制の「量」ではない。4法域を比べると、差が出るのは「許可判断の帰属の明確さ」である。<span class="chip hyp">仮説</span></div>
+
+  <p class="body">「制度の老化」をここでは次のように定義する: ①古い制度を廃止しない ②新しい規制を上に追加する ③例外・準用・経過措置が増える ④適用規範が複数文書へ分散する ⑤最終判断が個別審査に残る ⑥責任主体が見えなくなる。金融規制（決済分野）をケースに、日・米・EU・シンガポールを比較する。</p>
+
+  <div class="tblwrap"><table class="dt">
+    <thead><tr><th style="width:8.5em">比較軸</th><th>日本</th><th>米国</th><th>EU</th><th>シンガポール</th></tr></thead>
+    <tbody>
+      <tr><td>単一ルール<br>ブック性</td>
+        <td>業法縦割り＋監督指針・事務ガイドライン・パブコメ回答・Q&Aが多層分散。ソフトローが事実上の規範</td>
+        <td>連邦・州の重層＋機関分立（OCC/Fed/FDIC/CFPB＋50州）。送金業は州ごとにライセンス</td>
+        <td class="good">Single Rulebookが明示的な政策目標。EBAが条文単位で法文・基準・Q&Aを一元参照化</td>
+        <td class="good">MASに一元化。決済はPayment Services Actが7類型を単一法に統合</td></tr>
+      <tr><td>比例原則・<br>リスク別適用</td>
+        <td class="good">明文化あり（2020年改正で資金移動業3類型）。ただし利用実態は偏在（下記）</td>
+        <td>連邦包括法なし。州ごとに閾値・免除が異なる</td>
+        <td class="good">PSD2が小規模決済機関の免除を明文化。PSD3提案も比例措置を維持</td>
+        <td class="good">PS Actが3ライセンス階層（規模に応じ規制を段階化）</td></tr>
+      <tr><td>規制の撤回・<br>統合の仕組み</td>
+        <td>規制改革推進会議＋毎年の実施計画。デジタル臨調が約1万条項を一括見直し（2022）。ただし金融固有の法定定期レビュー義務はない</td>
+        <td class="good">EGRPRA法が銀行規制当局に10年ごとの全規制レビューを義務付け（預金取扱機関向けのみ）</td>
+        <td class="good">REFIT＋「one in, one out」原則。PSD2のレビュー条項がPSD3/PSR提案に結実</td>
+        <td>法定サンセットは確認できず。サンドボックス3層で「実験→本則化」の回路を制度化</td></tr>
+      <tr><td>個別審査依存と<br>最終判断主体</td>
+        <td class="weak">第一種資金移動業は登録＋業務実施計画の認可。登録実績: 第一種6社・第三種0社。電代業は当局登録＋各銀行との個別契約が法定要件＝最終判断が分散</td>
+        <td class="weak">判断権限は明確だが帰属が係争対象（CSBS対OCCのフィンテックチャーター訴訟）。全国展開は最大49州+DCの個別審査</td>
+        <td>母国当局の認可＋EU全域パスポート。加盟国間の解釈分岐が課題（PSR規則化の背景）</td>
+        <td class="good">申請先・監督者・中央銀行が同一機関。事前定義類型の迅速承認（Sandbox Express）</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">出典: 金融庁（事務ガイドライン第三分冊、免許・登録一覧 2026年5月末、決済制度WG資料）／CSBS（MTMA）／FFIEC（EGRPRA）／EBA（Single Rulebook）／EUR-Lex COM(2023)366・367／MAS（PS Act・Regulatory Sandbox）／内閣府・デジタル庁。<b>注意: PSD3/PSRは2026年8月時点で立法プロセス中。EUの現行法はPSD2。</b></p>
+
+  <div class="grid2">
+    <div class="tile" style="border-top:3px solid var(--navy)">
+      <div class="t-label" style="min-height:auto"><b>仮説を支持する事実</b> <span class="chip fact">事実</span></div>
+      <div class="t-note" style="font-size:12.5px">
+      ・「適法」の言質を取る公式回路（ノーアクションレター）の利用が累計63件と低迷<br>
+      ・リスク比例の類型を法定しても、第三種資金移動業は登録0社・第一種は6社<br>
+      ・電子決済等代行業は、当局登録を得ても各銀行との個別契約がなければ事業ができない——単一の最終判断主体が不在<br>
+      ・法令＋監督指針＋事務GL＋パブコメ回答＋Q&Aと、適用規範が多数の文書に分散</div>
+    </div>
+    <div class="tile" style="border-top:3px solid var(--accent)">
+      <div class="t-label" style="min-height:auto"><b>仮説への反証</b> <span class="chip fact">事実</span></div>
+      <div class="t-note" style="font-size:12.5px">
+      ・グレーゾーン解消制度（産業競争力強化法）は主務大臣に回答義務があり活用されている<br>
+      ・デジタル臨調は約1万条項を一括見直し——「誰も撤回しない」への大規模な反例<br>
+      ・「許可責任の分散」は米国（49州＋DC、CSBS対OCC訴訟）にもEU（加盟国分岐）にも別の形で存在し、日本固有の病理ではない<br>
+      ・登録拒否要件は法定であり、無制限の裁量ではない</div>
+    </div>
+  </div>
+
+  <p class="body"><span class="chip interp">解釈（実務者としての実感）</span> BANKEYが電子決済等代行業・資金移動業の実務で経験する審査は、「禁止された」ことは一度もないが、「これで適法・十分」と誰かが責任をもって言ってくれる場面もない、という構造をしている。書面上のルールより、参照点のない個別対話の積み重ねが実質を決める。この実感は上の統計・制度事実と整合するが、あくまでN=1の観察である。</p>
+  <p class="body"><span class="chip hyp">仮説</span> 円安との接続はさらに一段の推論を要する: 制度の老化 → 新規参入・再投資・実装の遅れ → 国内供給力の停滞 → 円需要の構造的弱さ。<b>この因果連鎖は本資料では検証できていない</b>。議論すべきは「この連鎖のどこにデータを当てられるか」である。</p>
+</section>
+
+<!-- ============ 12. AI ============ -->
+<section id="s12">
+  <div class="sec-no">SECTION 12</div>
+  <h2>AIは人口減少を補えるか——モデルではなく「手足」が足りない</h2>
+  <div class="keyline"><span class="kicker">この章の結論</span>生産年齢人口は2040年までに約1,160万人減る。AIはそれを補い得る唯一級の手段だが、電力・計算資源・API・制度という「接続基盤」がなければ供給力にならない。<span class="chip hyp">仮説</span></div>
+
+  <div class="tiles">
+    <div class="tile warn"><div class="t-label">生産年齢人口（15〜64歳）</div><div class="t-value">7,373万 → 6,213<small>万人</small></div><div class="t-note">2024年実績 → 2040年推計（社人研・令和5年推計、出生中位・死亡中位）<span class="chip fact">事実</span></div></div>
+    <div class="tile warn"><div class="t-label">時間当たり労働生産性</div><div class="t-value">OECD 29<small>位</small>/38</div><div class="t-note">56.8ドル（2023年、日本生産性本部2024年版）<span class="chip fact">事実</span></div></div>
+    <div class="tile warn"><div class="t-label">生成AIの活用方針を定めた企業</div><div class="t-value">49.7<small>%</small></div><div class="t-note">vs 米84.8%・独83.5%・中85.7%（2024年度、総務省 令和7年版情報通信白書。4カ国アンケート。「導入率」ではなく方針策定率）<span class="chip fact">事実</span></div></div>
+    <div class="tile"><div class="t-label">クラウドを利用する企業</div><div class="t-value">80.6<small>%</small></div><div class="t-note">2024年（総務省 通信利用動向調査）——基盤利用は進んでいる<span class="chip fact">事実</span></div></div>
+    <div class="tile"><div class="t-label">ロボット密度（製造業1万人あたり）</div><div class="t-value">446<small>台・世界4位</small></div><div class="t-note">2024年（IFR）。韓1,220・星818・独449。物理的自動化の蓄積は厚い——仮説への<b>反証側</b>の材料<span class="chip fact">事実</span></div></div>
+    <div class="tile warn"><div class="t-label">データセンター電力消費の国別シェア</div><div class="t-value">日韓計 約5<small>%</small></div><div class="t-note">米45%・中25%・欧15%（2024年、IEA）。日本は2030年までに+80%増の見込み<span class="chip fact">事実</span></div></div>
+    <div class="tile warn"><div class="t-label">産業用電力価格</div><div class="t-value">約22<small>円/kWh</small></div><div class="t-note">2023年。米・韓・中より割高、独・英と同水準（資源エネルギー庁。為替・税制の影響大で単純比較は困難）<span class="chip fact">事実</span></div></div>
+    <div class="tile warn"><div class="t-label">デジタル政府指数</div><div class="t-value">OECD 31<small>位</small>/33</div><div class="t-note">DGI 2023（順位は報道ベース）。UN電子政府ランキングでは13位、DGI 2025ではスコア大幅改善——指標の時点で印象が変わる点に注意<span class="chip fact">事実</span></div></div>
+    <div class="tile todo-tile"><div class="t-label">行政API・オープンデータ整備の定量指標</div><div class="t-value">データ取得予定</div><div class="t-note">確立した国際指標が未特定。OECD OURdata Index等で代替検討</div></div>
+    <div class="tile todo-tile"><div class="t-label">国内データセンター容量（MW）</div><div class="t-value">データ取得予定</div><div class="t-note">公的統計未確認。IEAは電力消費シェアのみ</div></div>
+  </div>
+
+  <p class="body"><span class="chip hyp">仮説</span> AIモデル単体は供給力にならない。労働を代替・増幅するには、<b>電力・GPU・データ・API・権限・物理設備・責任分担の制度</b>という「手足」への接続が要る。上の指標群は「日本はモデル利用の入口（クラウド）はあるが、接続基盤（電力・DC・行政API・企業の実装方針）が弱い」という構図と整合する——ただし代理指標が多く、ロボット密度のような反証側の材料もある。<b>AIは万能薬ではない</b>し、人口減少の完全な代替になる保証もない。</p>
+</section>
+
+<!-- ============ 13. 補修すべき5領域 ============ -->
+<section id="s13">
+  <div class="sec-no">SECTION 13</div>
+  <h2>日本が補修すべき5領域——議論用の優先順位仮説</h2>
+  <div class="keyline"><span class="kicker">この章の結論</span>以下は詳細な政策評価ではなく、§6〜12の検証から導いた「議論のたたき台」としての優先順位仮説である。<span class="chip hyp">仮説</span></div>
+
+  <div class="pillars">
+    <div class="pillar"><div class="pno">1</div><h3>エネルギー</h3><p>原子力・送電網・蓄電・安定した電力。AI・DCの前提条件（§12: 電力価格は主要競合国より割高、自給率16.4%）</p></div>
+    <div class="pillar"><div class="pno">2</div><h3>計算資源</h3><p>GPU・半導体・データセンター・AI基盤（§12: DC電力シェア日韓計約5% vs 米45%）</p></div>
+    <div class="pillar"><div class="pno">3</div><h3>物理的供給能力</h3><p>ロボット・造船・医薬品・食料・モビリティ・素材（§7: 円安でも輸出数量が増えない供給制約への直接の処方）</p></div>
+    <div class="pillar"><div class="pno">4</div><h3>デジタル公共基盤</h3><p>行政API・金融API・データポータビリティ・デジタルID（§11: 電代業のAPI接続が個別契約に依存する構造の一般化問題）</p></div>
+    <div class="pillar"><div class="pno">5</div><h3>制度の新陳代謝</h3><p>サンセット条項・規制レビューの法定化・単一ルールブック化・許可責任主体の明確化（§11: EGRPRA・REFIT・MAS一元化との比較から）</p></div>
+  </div>
+  <p class="note">各柱の投資規模・実行主体・時間軸の評価はこの資料のスコープ外。議論の場では「5本の順序」「何を落とすか」「円需要への効き方の差」を問うことを想定。</p>
+</section>
+
+<!-- ============ 14. 暫定結論 ============ -->
+<section id="s14">
+  <div class="sec-no">SECTION 14</div>
+  <h2>暫定結論</h2>
+  <div class="keyline"><span class="kicker">この資料の答え（暫定）</span>緊縮と利上げは短期の為替安定に寄与し得る。しかしそれ「だけ」で、長期的な円の価値が回復するとは限らない。</div>
+
+  <p class="body">検証の結果を、問いに対して正直に並べる。</p>
+  <div class="tblwrap"><table class="dt">
+    <thead><tr><th style="width:16em">命題</th><th>現時点の評価</th></tr></thead>
+    <tbody>
+      <tr><td>金利差・金融政策は円安の主要因か</td><td><b>短期の変動については、その通り</b>（本資料はこれを否定しない）<span class="chip fact">事実</span></td></tr>
+      <tr><td>経常黒字と円買いの連動は弱まったか</td><td>構造転換（貿易→資産所得、再投資収益26.8%）は統計上明確。<b>連動の弱まりは支持される</b><span class="chip fact">事実</span>／為替への寄与度は未定量<span class="chip hyp">仮説</span></td></tr>
+      <tr><td>円安でも輸出数量は増えていないか</td><td><b>増えていない（4年連続減少）</b><span class="chip fact">事実</span>。ただし原因（能力低下か移転か競争力か）は識別できていない<span class="chip hyp">仮説</span></td></tr>
+      <tr><td>デジタル・エネルギーは漏出経路か</td><td>規模は確認（デジタル▲6.7兆円・試算、燃料輸入22.1兆円）<span class="chip fact">事実</span>。ただし2025年のデジタル赤字拡大は一服。「漏出＝損失」かは回収率次第<span class="chip interp">解釈</span></td></tr>
+      <tr><td>制度の老化が供給力を妨げているか</td><td>「規制量が多い」は不成立。「許可判断の帰属の不明確さ」の差は観察される<span class="chip fact">事実</span>。円安への因果連鎖は未検証<span class="chip hyp">仮説</span></td></tr>
+      <tr><td>緊縮と利上げだけで円安は終わるか</td><td>短期の反発はあり得る。しかし供給力・所得構造・制度の要因が残る限り、<b>変動の「床」は戻らない可能性がある</b><span class="chip hyp">仮説</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="caveats">
+    <h3>誤読を防ぐための留保（この資料が主張していないこと）</h3>
+    <ul>
+      <li>「緊縮は不要」「利上げは不要」とは主張していない。金融・財政政策の規律は前提である</li>
+      <li>「円安は国力低下そのもの」という同一視はしていない。円安には輸出企業収益・インバウンド等の便益もある</li>
+      <li>「供給能力低下が円安の唯一の原因」とは主張していない。複数要因の一つとしての検証である</li>
+      <li>「海外投資・海外サービス利用が悪い」とは主張していない。個々の主体の行動は合理的である</li>
+    </ul>
+  </div>
+
+  <div class="finale">
+    <p>円安を終わらせるには、円を減らすだけでは足りない。<br>円で買いたいものを、日本国内で増やさなければならない。</p>
+  </div>
+</section>
+
+</div><!-- /partB -->
+
+</main>
+
+<footer>
+  議論用ドラフト（社外秘・未公表）｜ 計数固定日: 2026年8月6日 ｜ 骨格: 阪本善彦「穴の空いたバケツの話」（BANKEY Inc., 2026年8月1日）<br>
+  数値はすべて一次資料（財務省・日本銀行・経産省・総務省・BIS・IEA・IFR・OECD等）で再検証済み。詳細な出典一覧・仮説検証表・制約事項は sources.md / hypothesis_check.md / limitations.md を参照。<br>
+  本資料は議論ののち、30枚程度のスライドに展開する前提で構成されている（1セクション＝2〜3スライド）。
+</footer>
+
+<div id="tip"></div>
+
+<script>
+/* ============ ミニチャートライブラリ（外部依存なし） ============ */
+const NAVY = '#20568f', ACCENT = '#c0392b', MUTED = '#87857f',
+      GRID = '#e3e2dc', BASE = '#c4c3bc', INK = '#141414', INK2 = '#4e4d4a';
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs, parent){
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function txt(parent, x, y, s, opt={}){
+  const t = el('text', {x, y, fill: opt.fill||MUTED, 'font-size': opt.size||11,
+    'text-anchor': opt.anchor||'middle', 'font-weight': opt.weight||400}, parent);
+  t.textContent = s; return t;
+}
+const tip = document.getElementById('tip');
+function bindTip(node, html){
+  node.addEventListener('mousemove', ev=>{
+    tip.innerHTML = html; tip.style.opacity = 1;
+    const w = tip.offsetWidth;
+    tip.style.left = Math.min(ev.clientX + 12, window.innerWidth - w - 8) + 'px';
+    tip.style.top  = (ev.clientY - 34) + 'px';
+  });
+  node.addEventListener('mouseleave', ()=>{ tip.style.opacity = 0; });
+}
+function makeSVG(container, W, H){
+  const c = document.getElementById(container);
+  const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, role:'img'}, c);
+  return svg;
+}
+function niceFmt(v){ return (Math.round(v*10)/10).toLocaleString('ja-JP'); }
+
+/* 年次バー（正負対応） */
+function yearBars(id, data, opt){
+  // data: [[year, value], ...]
+  const W = opt.w||760, H = opt.h||240, m = {t:18, r:14, b:30, l:46};
+  const svg = makeSVG(id, W, H);
+  const years = data.map(d=>d[0]), vals = data.map(d=>d[1]);
+  const ymin = Math.min(0, ...vals), ymax = Math.max(0, ...vals);
+  const pad = (ymax-ymin)*0.12;
+  const y0 = ymin<0 ? ymin-pad : 0, y1 = ymax>0 ? ymax+pad : 0;
+  const sy = v => m.t + (y1-v)/(y1-y0)*(H-m.t-m.b);
+  const x0d = opt.xDomain ? opt.xDomain[0] : years[0]-1;
+  const x1d = opt.xDomain ? opt.xDomain[1] : years[years.length-1]+1;
+  const sx = yr => m.l + (yr-x0d)/(x1d-x0d)*(W-m.l-m.r);
+  const bw = opt.barW || Math.max(8, Math.min(26, (W-m.l-m.r)/(x1d-x0d)*0.72));
+  // grid + y labels
+  const ticks = opt.yTicks || [];
+  ticks.forEach(tv=>{
+    el('line',{x1:m.l,x2:W-m.r,y1:sy(tv),y2:sy(tv),stroke:GRID,'stroke-width':1},svg);
+    txt(svg, m.l-8, sy(tv)+4, niceFmt(tv), {anchor:'end'});
+  });
+  el('line',{x1:m.l,x2:W-m.r,y1:sy(0),y2:sy(0),stroke:BASE,'stroke-width':1.2},svg);
+  data.forEach(([yr,v])=>{
+    const x = sx(yr)-bw/2, yA = sy(Math.max(0,v)), hgt = Math.abs(sy(v)-sy(0));
+    const color = opt.colorFn ? opt.colorFn(v,yr) : (v<0?ACCENT:NAVY);
+    const r = el('rect',{x, y:yA, width:bw, height:Math.max(hgt,1), rx:3,
+      fill: opt.hatch? 'url(#'+opt.hatch+')' : color, stroke: opt.hatch? color:'none','stroke-width':opt.hatch?1:0},svg);
+    bindTip(r, `${yr}年: <b>${niceFmt(v)}${opt.unit||''}</b>`);
+    if (opt.labelAll || (opt.labelYears||[]).includes(yr)){
+      txt(svg, sx(yr), v>=0? yA-6 : yA+hgt+13, niceFmt(v), {fill:INK, weight:700, size:11});
+    }
+  });
+  const xlabels = opt.xLabels || years;
+  xlabels.forEach(yr=>{ txt(svg, sx(yr), H-8, "'"+String(yr).slice(2), {size:10.5}); });
+  if (opt.annot) opt.annot(svg, sx, sy);
+}
+
+/* 折れ線（複数系列） */
+function lineChart(id, cfg){
+  const W = cfg.w||760, H = cfg.h||250, m = {t:18, r:110, b:30, l:46};
+  const svg = makeSVG(id, W, H);
+  const [x0d,x1d] = cfg.xDomain, [y0,y1] = cfg.yDomain;
+  const sx = x => m.l + (x-x0d)/(x1d-x0d)*(W-m.l-m.r);
+  const sy = v => m.t + (y1-v)/(y1-y0)*(H-m.t-m.b);
+  (cfg.yTicks||[]).forEach(tv=>{
+    el('line',{x1:m.l,x2:W-m.r,y1:sy(tv),y2:sy(tv),stroke:GRID,'stroke-width':1},svg);
+    txt(svg, m.l-8, sy(tv)+4, niceFmt(tv), {anchor:'end'});
+  });
+  if (cfg.zeroLine && 0>=y0 && 0<=y1)
+    el('line',{x1:m.l,x2:W-m.r,y1:sy(0),y2:sy(0),stroke:BASE,'stroke-width':1.2},svg);
+  (cfg.xTicks||[]).forEach(xv=>{ txt(svg, sx(xv), H-8, "'"+String(xv).slice(2), {size:10.5}); });
+  cfg.series.forEach(s=>{
+    const d = s.data.map((p,i)=>(i?'L':'M')+sx(p[0]).toFixed(1)+','+sy(p[1]).toFixed(1)).join('');
+    el('path',{d, fill:'none', stroke:s.color, 'stroke-width':2.2, 'stroke-linejoin':'round',
+       'stroke-dasharray': s.dash?'5,4':'none'},svg);
+    s.data.forEach(p=>{
+      const c = el('circle',{cx:sx(p[0]),cy:sy(p[1]),r:3.6,fill:s.color,stroke:'#fdfdfc','stroke-width':1.5},svg);
+      bindTip(c, `${s.name} ${p[0]}${cfg.xUnit||'年'}: <b>${niceFmt(p[1])}${cfg.unit||''}</b>`);
+    });
+    const last = s.data[s.data.length-1];
+    txt(svg, sx(last[0])+10, sy(last[1])+4, s.name, {fill:s.color, anchor:'start', weight:700, size:11.5});
+  });
+  if (cfg.annot) cfg.annot(svg, sx, sy);
+}
+
+/* 横向きダイバージングバー */
+function hDiverging(id, rows, opt){
+  const W = opt.w||760, rowH = 42, m = {t:8, b:26, l:10, r:10};
+  const H = m.t + rows.length*rowH + m.b;
+  const svg = makeSVG(id, W, H);
+  const maxAbs = Math.max(...rows.map(r=>Math.abs(r.v)));
+  const cx = W*0.46, span = W*0.40;
+  const sx = v => cx + v/maxAbs*span/1.05;
+  el('line',{x1:cx,x2:cx,y1:m.t,y2:H-m.b,stroke:BASE,'stroke-width':1.2},svg);
+  rows.forEach((r,i)=>{
+    const y = m.t + i*rowH + 8, h = 20;
+    const x = Math.min(cx, sx(r.v)), w = Math.abs(sx(r.v)-cx);
+    const color = r.v<0 ? ACCENT : NAVY;
+    const rect = el('rect',{x, y, width:Math.max(w,1.5), height:h, rx:3,
+      fill: r.est? 'url(#hatchR)' : color, stroke: r.est? color : 'none', 'stroke-width': r.est?1:0},svg);
+    bindTip(rect, `${r.name}: <b>${r.v>0?'+':''}${niceFmt(r.v)}兆円</b>`);
+    txt(svg, r.v<0? cx+8 : cx-8, y+14, r.name, {anchor: r.v<0?'start':'end', fill:INK2, size:11.5, weight:600});
+    txt(svg, r.v<0? x-6 : x+w+6, y+14, (r.v>0?'+':'▲')+Math.abs(r.v).toFixed(1), {anchor: r.v<0?'end':'start', fill:color, weight:700, size:12});
+  });
+  txt(svg, cx-span*0.55, H-8, '← 支払超過（赤字）', {fill:ACCENT, size:10.5});
+  txt(svg, cx+span*0.55, H-8, '受取超過（黒字） →', {fill:NAVY, size:10.5});
+}
+
+/* ハッチパターン定義（試算用） */
+function defsInto(svg, idName, color){
+  const defs = el('defs',{},svg);
+  const p = el('pattern',{id:idName, width:6, height:6, patternUnits:'userSpaceOnUse', patternTransform:'rotate(45)'},defs);
+  el('rect',{width:6,height:6,fill:color,opacity:0.25},p);
+  el('line',{x1:0,y1:0,x2:0,y2:6,stroke:color,'stroke-width':2.2},p);
+}
+
+/* ============ §4 経常収支 + REER ============ */
+yearBars('ch-ca',
+  [[2000,14.1],[2005,18.7],[2010,19.4],[2015,16.5],[2020,16.0],[2022,11.4],[2023,22.5],[2024,29.3],[2025,32.2]],
+  {h:200, yTicks:[0,10,20,30], unit:'兆円', xDomain:[1994,2027], barW:20,
+   xLabels:[1995,2000,2005,2010,2015,2020,2025],
+   labelYears:[2025],
+   annot:(svg,sx,sy)=>{ txt(svg, sx(2025), sy(32.2)-20, '2年連続 過去最高', {fill:'#17304f', weight:700, size:11, anchor:'end'}); }});
+lineChart('ch-reer', {
+  h:200, xDomain:[1994,2027], yDomain:[55,200],
+  yTicks:[60,100,140,180], xTicks:[1995,2000,2005,2010,2015,2020,2025],
+  series:[{name:'REER', color:NAVY, data:[[1995,174.4],[2000,162.1],[2005,128.3],[2010,128.8],[2015,90.3],[2020,100.0],[2022,79.2],[2023,75.5],[2024,71.5],[2025,72.5],[2026,66.3]]}],
+  annot:(svg,sx,sy)=>{
+    txt(svg, sx(1995)+6, sy(174.4)-10, "1995年 ピーク圏", {fill:INK2, size:10.5, anchor:'start'});
+    txt(svg, sx(2026)-4, sy(66.3)+20, "2026年6月 統計開始以来の最低値", {fill:'#c0392b', weight:700, size:11, anchor:'end'});
+  }});
+
+/* ============ §6 貿易 vs 第一次所得 ============ */
+lineChart('ch-income', {
+  h:260, xDomain:[1999,2027], yDomain:[-20,45],
+  yTicks:[-20,-10,0,10,20,30,40], xTicks:[2000,2005,2010,2015,2020,2025], zeroLine:true, unit:'兆円',
+  series:[
+    {name:'第一次所得収支', color:NAVY, data:[[2000,7.7],[2005,11.9],[2010,13.6],[2015,21.3],[2020,19.4],[2022,35.0],[2023,36.6],[2024,40.3],[2025,41.8]]},
+    {name:'貿易収支', color:ACCENT, data:[[2000,12.7],[2005,11.8],[2010,9.5],[2015,-0.9],[2020,2.8],[2022,-15.5],[2023,-6.6],[2024,-2.7],[2025,-0.6]]}
+  ],
+  annot:(svg,sx,sy)=>{
+    el('line',{x1:sx(2005),x2:sx(2005),y1:sy(43),y2:sy(-18),stroke:MUTED,'stroke-width':1,'stroke-dasharray':'3,3'},svg);
+    txt(svg, sx(2005), sy(44)-2, '2005年 逆転', {fill:INK2, size:10.5, weight:700});
+  }});
+
+/* ============ §6 ウォーターフォール ============ */
+(function(){
+  const W=760,H=250,m={t:26,r:16,b:40,l:46};
+  const svg = makeSVG('ch-wf', W, H);
+  defsInto(svg,'hatchWf',NAVY);
+  const steps = [
+    {name:'第一次所得収支', v:41.8},
+    {name:'貿易収支', v:-0.6},
+    {name:'サービス収支', v:-3.4},
+    {name:'第二次所得収支', v:-5.6},
+    {name:'経常収支（合計）', v:32.2, total:true}
+  ];
+  const ymax=46, sy=v=>m.t+(ymax-v)/ymax*(H-m.t-m.b);
+  const n=steps.length, slot=(W-m.l-m.r)/n, bw=Math.min(88,slot*0.62);
+  [0,10,20,30,40].forEach(tv=>{
+    el('line',{x1:m.l,x2:W-m.r,y1:sy(tv),y2:sy(tv),stroke:GRID},svg);
+    txt(svg,m.l-8,sy(tv)+4,tv,{anchor:'end'});
+  });
+  let run=0;
+  steps.forEach((s,i)=>{
+    const xc=m.l+slot*i+slot/2, x=xc-bw/2;
+    let yTop,hgt,color;
+    if(s.total){ yTop=sy(s.v); hgt=sy(0)-sy(s.v); color=NAVY; }
+    else{
+      const a=run, b=run+s.v; run=b;
+      yTop=sy(Math.max(a,b)); hgt=Math.abs(sy(a)-sy(b)); color=s.v<0?ACCENT:NAVY;
+      if(i<steps.length-2) el('line',{x1:x+bw,x2:m.l+slot*(i+1)+slot/2-bw/2,y1:sy(b),y2:sy(b),stroke:MUTED,'stroke-dasharray':'3,3'},svg);
+    }
+    const r=el('rect',{x,y:yTop,width:bw,height:Math.max(hgt,2),rx:3,fill:color},svg);
+    bindTip(r,`${s.name}: <b>${s.v>0?'+':''}${niceFmt(s.v)}兆円</b>`);
+    txt(svg,xc,yTop-7,(s.v>0?'+':'')+niceFmt(s.v),{fill:color,weight:700,size:12.5});
+    const lines=s.name.replace('（合計）','').split('');
+    txt(svg,xc,H-24,s.name.length>7?s.name.slice(0,6):s.name,{size:10.5,fill:INK2});
+    if(s.name.length>7) txt(svg,xc,H-11,s.name.slice(6),{size:10.5,fill:INK2});
+  });
+  // 再投資収益の内訳表示
+  const xc=m.l+slot/2;
+  el('rect',{x:xc-Math.min(88,slot*0.62)/2, y:sy(41.8), width:Math.min(88,slot*0.62), height:sy(41.8-11.2)-sy(41.8), rx:3, fill:'url(#hatchWf)', stroke:NAVY,'stroke-width':1},svg);
+  txt(svg, xc+Math.min(88,slot*0.62)/2+8, sy(36.2), 'うち再投資収益', {anchor:'start', size:10.5, fill:INK2});
+  txt(svg, xc+Math.min(88,slot*0.62)/2+8, sy(33.0), '11.2兆円（試算: 円買いを伴わない）', {anchor:'start', size:10.5, fill:INK2, weight:700});
+})();
+
+/* ============ §7 輸出分解 ============ */
+(function(){
+  function pctBars(id, title, rows){
+    const W=360,H=230,m={t:30,r:10,b:44,l:44};
+    const svg=makeSVG(id,W,H);
+    const ymin=-6,ymax=10;
+    const sy=v=>m.t+(ymax-v)/(ymax-ymin)*(H-m.t-m.b);
+    [-4,0,4,8].forEach(tv=>{
+      el('line',{x1:m.l,x2:W-m.r,y1:sy(tv),y2:sy(tv),stroke:tv===0?BASE:GRID,'stroke-width':tv===0?1.2:1},svg);
+      txt(svg,m.l-6,sy(tv)+4,tv+'%',{anchor:'end',size:10});
+    });
+    const n=rows.length,slot=(W-m.l-m.r)/n,bw=Math.min(64,slot*0.55);
+    rows.forEach((r,i)=>{
+      const xc=m.l+slot*i+slot/2;
+      const color=r.v<0?ACCENT:NAVY;
+      const y=sy(Math.max(0,r.v)),hgt=Math.abs(sy(r.v)-sy(0));
+      const rect=el('rect',{x:xc-bw/2,y,width:bw,height:hgt,rx:3,fill:color},svg);
+      bindTip(rect,`${r.name}: <b>${r.v>0?'+':''}${r.v}%</b>`);
+      txt(svg,xc,r.v>=0?y-7:y+hgt+14,(r.v>0?'+':'')+r.v+'%',{fill:color,weight:800,size:13});
+      txt(svg,xc,H-26,r.name,{size:11,fill:INK2,weight:600});
+    });
+    txt(svg,W/2,16,title,{fill:INK,weight:700,size:12});
+  }
+  pctBars('ch-exp1','輸出全体（2024年度・前年度比）',[{name:'金額',v:5.9},{name:'価格',v:8.5},{name:'数量',v:-2.4}]);
+  pctBars('ch-exp2','自動車（2024年度・前年度比）',[{name:'金額',v:2.5},{name:'数量',v:-4.0}]);
+})();
+
+/* ============ §8 内部留保 ============ */
+yearBars('ch-retained',
+  [[2011,281.7],[2012,304.5],[2013,328.0],[2014,354.4],[2015,377.9],[2016,406.2],[2017,446.5],[2018,463.1],[2019,475.0],[2020,484.4],[2021,516.5],[2022,554.8],[2023,601.0],[2024,637.5]],
+  {h:230, yTicks:[0,200,400,600], unit:'兆円', xDomain:[2010,2025.6], barW:30,
+   xLabels:[2011,2014,2017,2020,2024], labelYears:[2011,2024]});
+
+/* ============ §9 デジタル関連収支 ============ */
+(function(){
+  const c=document.getElementById('ch-digital');
+  const svg=el('svg',{viewBox:'0 0 760 240',role:'img'},c);
+  defsInto(svg,'hatchD',ACCENT);
+  c.removeChild(svg); // re-add via yearBars flow: use custom to attach hatch defs
+  // simpler: draw manually
+  const W=760,H=240,m={t:18,r:14,b:30,l:46};
+  const svg2=makeSVG('ch-digital',W,H);
+  defsInto(svg2,'hatchD2',ACCENT);
+  const data=[[2014,-2.15],[2015,-2.65],[2016,-2.67],[2017,-2.56],[2018,-2.79],[2019,-3.94],[2020,-3.83],[2021,-4.37],[2022,-4.75],[2023,-5.95],[2024,-6.87],[2025,-6.73]];
+  const y0=-7.8,y1=0.6;
+  const sy=v=>m.t+(y1-v)/(y1-y0)*(H-m.t-m.b);
+  const sx=yr=>m.l+(yr-2013.2)/(2026-2013.2)*(W-m.l-m.r);
+  [-6,-4,-2,0].forEach(tv=>{
+    el('line',{x1:m.l,x2:W-m.r,y1:sy(tv),y2:sy(tv),stroke:tv===0?BASE:GRID,'stroke-width':tv===0?1.2:1},svg2);
+    txt(svg2,m.l-8,sy(tv)+4,tv,{anchor:'end'});
+  });
+  data.forEach(([yr,v])=>{
+    const bw=34,x=sx(yr)-bw/2;
+    const r=el('rect',{x,y:sy(0),width:bw,height:sy(v)-sy(0),rx:3,fill:'url(#hatchD2)',stroke:ACCENT,'stroke-width':1},svg2);
+    bindTip(r,`${yr}年: <b>▲${niceFmt(-v)}兆円</b>（試算）`);
+    txt(svg2,sx(yr),H-8,"'"+String(yr).slice(2),{size:10.5});
+    if(yr===2014||yr===2024||yr===2025) txt(svg2,sx(yr),sy(v)+16,'▲'+niceFmt(-v),{fill:ACCENT,weight:700,size:11.5});
+  });
+  txt(svg2,sx(2019.5),sy(-7.3),'※公式統計の単一項目ではない（日銀レビュー方式の組替試算）',{fill:MUTED,size:10.5});
+})();
+
+/* ============ §9 サービス収支内訳 ============ */
+(function(){
+  const c=document.getElementById('ch-services');
+  const rows=[
+    {name:'旅行収支（インバウンド）', v:6.67},
+    {name:'知的財産権等使用料', v:2.96},
+    {name:'通信・コンピュータ・情報', v:-2.39},
+    {name:'その他業務サービス', v:-6.13},
+    {name:'輸送・その他', v:-4.55},
+    {name:'サービス収支 全体', v:-3.44}
+  ];
+  // hatch defs container
+  const W=760;
+  hDiverging('ch-services',rows,{w:W});
+  const svg=c.querySelector('svg');
+  const d=el('defs',{},svg);
+  const p=el('pattern',{id:'hatchR',width:6,height:6,patternUnits:'userSpaceOnUse',patternTransform:'rotate(45)'},d);
+  el('rect',{width:6,height:6,fill:ACCENT,opacity:0.25},p);
+  el('line',{x1:0,y1:0,x2:0,y2:6,stroke:ACCENT,'stroke-width':2.2},p);
+})();
+
+/* ============ §10 バケツ構造図 ============ */
+(function(){
+  const W=760,H=560;
+  const svg=makeSVG('ch-bucket',W,H);
+  const bx=110,bw=360,bt=120,bb=430; // bucket coords
+  // 入力矢印
+  const inputs=['財政支出','金融緩和','家計所得','企業利益'];
+  inputs.forEach((s,i)=>{
+    const x=bx+50+i*((bw-100)/3);
+    el('line',{x1:x,y1:34,x2:x,y2:bt-26,stroke:NAVY,'stroke-width':2.5},svg);
+    el('path',{d:`M${x-6},${bt-30} L${x},${bt-18} L${x+6},${bt-30} Z`,fill:NAVY},svg);
+    txt(svg,x,24,s,{fill:NAVY,weight:700,size:12.5});
+  });
+  txt(svg,bx+bw/2,66,'需要・資金の投入（水）',{fill:MUTED,size:11});
+  // バケツ本体
+  el('path',{d:`M${bx},${bt} L${bx+28},${bb} L${bx+bw-28},${bb} L${bx+bw},${bt}`,fill:'none',stroke:INK,'stroke-width':3,'stroke-linejoin':'round'},svg);
+  el('line',{x1:bx-10,y1:bt,x2:bx+bw+10,y2:bt,stroke:INK,'stroke-width':3},svg);
+  // 中身
+  txt(svg,bx+bw/2,bt+40,'国内に残るもの',{fill:NAVY,weight:800,size:14});
+  const keeps=['国内生産','国内雇用','国内設備投資（2024年度 55.5兆円・過去最高水準）','税収','生産性'];
+  keeps.forEach((s,i)=>{ txt(svg,bx+bw/2,bt+70+i*26,s,{fill:INK2,size:12}); });
+  txt(svg,bx+bw/2,bb-38,'支出が「供給能力」に転換された分だけ水位が上がる',{fill:MUTED,size:10.5});
+  // 穴と漏出
+  const leaks=[
+    {y:bt+70, label:'輸入（消費財ほか）', amt:''},
+    {y:bt+120, label:'エネルギー輸入', amt:'22.1兆円/年（2025・事実）'},
+    {y:bt+170, label:'デジタルサービス', amt:'▲6.7兆円/年（2025・試算）'},
+    {y:bt+220, label:'海外証券投資（投信経由）', amt:'11.5兆円（2024・事実）'},
+    {y:bt+270, label:'海外再投資（再投資収益）', amt:'11.2兆円/年（2025・円転の有無は試算）'}
+  ];
+  leaks.forEach((L,i)=>{
+    const holeX=bx+bw-14-(L.y-bt)*0.093; // along the slanted right wall
+    el('circle',{cx:holeX,cy:L.y,r:5.5,fill:'#f7f7f4',stroke:ACCENT,'stroke-width':2},svg);
+    el('line',{x1:holeX+8,y1:L.y,x2:holeX+58,y2:L.y,stroke:ACCENT,'stroke-width':2},svg);
+    el('path',{d:`M${holeX+54},${L.y-5} L${holeX+64},${L.y} L${holeX+54},${L.y+5} Z`,fill:ACCENT},svg);
+    txt(svg,holeX+70,L.y-2,L.label,{fill:ACCENT,weight:700,size:12,anchor:'start'});
+    if(L.amt) txt(svg,holeX+70,L.y+13,L.amt,{fill:INK2,size:10.5,anchor:'start'});
+  });
+  txt(svg,bx+bw/2,bb+34,'議論すべきは「水量」だけでなく「流路と漏出」。ただし追加支出1円あたりの漏出率は未定量（仮説）。',{fill:MUTED,size:11});
+  txt(svg,bx+bw/2,bb+52,'漏出そのものは合理的行動の集積であり、「悪」ではない。',{fill:MUTED,size:11});
+})();
+</script>
+</body>
+</html>
